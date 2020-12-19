@@ -1,0 +1,78 @@
+﻿<ContentControl 
+    x:Class="WpfApp1.ThumbControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:WpfApp1"
+    mc:Ignorable="d"  RenderTransformOrigin="0.5,0.5" Background="Transparent" BorderThickness="0" Width="100" Height="100" 
+    d:DesignHeight="450" d:DesignWidth="800" >
+    <ContentControl.Resources>
+        <ControlTemplate x:Key="ThumbTemplate" TargetType="Control" >
+            <Grid>
+                <local:RotateThumb Margin="-0,-28,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <local:ResizeThumb Height="10" Cursor="SizeNS" Margin="0 -10 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <local:ResizeThumb Width="8" Cursor="SizeWE" Margin="-10 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="8" Cursor="SizeWE" Margin="0 0 -10 0" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                <local:ResizeThumb Height="8" Cursor="SizeNS" Margin="0 0 0 -10" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"/>
+                <local:ResizeThumb Width="8" Height="8" Cursor="SizeNWSE" Margin="-10 -10 0 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="8" Height="8" Cursor="SizeNESW" Margin="0 -10 -10 0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                <local:ResizeThumb Width="8" Height="8" Cursor="SizeNESW" Margin="-10 0 0 -10" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="8" Height="8" Cursor="SizeNWSE" Margin="0 0 -10 -10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                <local:MoveThumb  Cursor="SizeAll" Background="Transparent" BorderThickness="0" BorderBrush="Transparent"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ControlTemplate" TargetType="ContentControl">
+            <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                <Control x:Name="AAA" Template="{StaticResource ThumbTemplate}" BorderThickness="0"/>
+                <ContentPresenter Content="{TemplateBinding ContentControl.Content}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="AAA" Property="Opacity" Value="1"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter TargetName="AAA" Property="Opacity" Value=".01"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type local:RotateThumb}">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="IsHitTestVisible" Value="True"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:RotateThumb}">
+                        <Grid Background="Transparent" Width="18" Height="18">
+                            <Path Width="18" Height="18" Fill="DimGray" Stretch="Fill" Data="M 649.471 897.314 l 34.7175 99.185 a 508.241 508.241 0 0 1 -133.984 27.5025 l -7.13625 -104.878 a 402.9 402.9 0 0 0 106.402 -21.81 M 83.79 788.907 a 515.824 515.824 0 0 0 88.2 104.238 l 70.56 -77.8562 a 404.576 404.576 0 0 1 -70.16 -82.99 l -88.1988 56.53 l -0.40125 0.07875 Z m 29.2663 -215.689 L 8.82 588.455 a 497.561 497.561 0 0 0 17.3988 75.93 l 100.469 -30.95 a 401.9 401.9 0 0 1 -13.5513 -60.135 l -0.08 -0.08125 Z m 171.589 397.221 a 511.992 511.992 0 0 0 129.253 44.82 l 20.7675 -103.114 a 402.119 402.119 0 0 1 -102.473 -35.44 l -47.5475 93.7337 Z m 461.045 -122.359 l 59.895 86.3562 a 515.427 515.427 0 0 0 101.029 -91.9675 L 826.432 774.875 A 411.6 411.6 0 0 1 746.25 848.08 h -0.56 Z M 514.926 2.56625 a 507.628 507.628 0 0 0 -320.005 112.735 L 79.62 0 L 0 398.182 l 398.263 -79.6212 l -128.291 -128.29 c 148.381 -112.166 353.991 -109.215 499.092 7.16125 c 145.102 116.378 192.619 316.443 115.34 485.635 l 95.495 43.86 c 72.4737 -158.326 59.42 -342.646 -34.6413 -489.18 S 689.051 2.59875 514.926 2.56625" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type local:ResizeThumb}">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:ResizeThumb}">
+                        <Rectangle Fill="#00000000" Stroke="DimGray" StrokeThickness="1" Width="8" Height="8"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type local:MoveThumb}">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:MoveThumb}">
+                        <Rectangle Fill="#00000000"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentControl.Resources>
+</ContentControl>
